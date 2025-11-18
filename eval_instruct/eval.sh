@@ -5,9 +5,6 @@ PYTHONPATH=. accelerate launch --main_process_port 12334 -m lm_eval \
     --device cuda \
     --batch_size 1 \
     --num_fewshot 4 \
-    --use_remask true \
-    --re_mask_ratio 0.5 \
-    --re_mask_scale 2 \
     --output_path output_reproduce/mmlu \
     --log_samples --confirm_run_unsafe_code \
     --apply_chat_template

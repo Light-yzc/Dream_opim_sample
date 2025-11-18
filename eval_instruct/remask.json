@@ -1,0 +1,5 @@
+{
+    "re_mask": true,
+    "re_mask_ratio" : 2, 
+    "re_mask_scale" : 0.5
+}
