@@ -49,8 +49,8 @@ from transformers.utils import (
 logger = logging.get_logger(__name__)
 remask_data = {
     "re_mask": True,
-    "re_mask_ratio": 2,
-    "re_mask_scale": 0.5
+    "re_mask_ratio": 0.5,
+    "re_mask_scale": 2
 }
 
 def top_p_logits(logits, top_p=None):
@@ -519,7 +519,7 @@ class DiffLLM(LM):
             generation_config = self._prepare_generation_config(generation_config, **kwargs)
             generation_tokens_hook_func = kwargs.pop("generation_tokens_hook_func", lambda step, x, logits: x)
             generation_logits_hook_func = kwargs.pop("generation_logits_hook_func", lambda step, x, logits: logits)
-            print(f're_mask {re_mask}')
+            # print(f're_mask {re_mask}')
             # 2. Define model inputs
             assert inputs is not None
             input_ids = inputs
@@ -666,9 +666,9 @@ class DiffLLM(LM):
                         number_transfer_tokens = int(num_mask_token * (1 - s / t)) if i < steps - 1 else int(num_mask_token)
                         if re_mask:  
                             number_transfer_tokens = scale * number_transfer_tokens
-                        print()
-                        print('当前 mask')
-                        print(number_transfer_tokens)
+                        # print()
+                        # print('当前 mask')
+                        # print(number_transfer_tokens)
                         full_confidence = torch.full_like(x, -torch.inf, device=self.device, dtype=logits.dtype)
                         full_confidence[mask_index] = confidence
                         if number_transfer_tokens > 0:
@@ -694,7 +694,7 @@ class DiffLLM(LM):
                             return x, None, None, 1
             # for i in range(steps):
             import tqdm
-            for i in tqdm.trange(steps):
+            for i in range(steps):
                 if i < (steps * re_mask_ratio):
                     scale = re_mask_scale
                 else:
@@ -708,7 +708,7 @@ class DiffLLM(LM):
                         # new_logits[mask_index] = torch.inf
                         max_value = new_logits.max(dim=2)[0]
                         value, remask_index = max_value.topk(k = int(number_transfer_tokens * (scale - 1) // scale), dim=1, largest=False)
-                        print(f'当前反 mask token{int(number_transfer_tokens * (scale - 1) // scale)}')
+                        # print(f'当前反 mask token{int(number_transfer_tokens * (scale - 1) // scale)}')
                         # x[row_indices[:, :len(remask_index)],remask_index] = mask_token_id
                         re_mask_index = transfer_index[:, remask_index.squeeze()]
                         original_indices_to_remask = torch.gather(transfer_index, 1, remask_index)
