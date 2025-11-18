@@ -504,11 +504,12 @@ class DiffLLM(LM):
             self,
             inputs: Optional[torch.Tensor] = None,
             generation_config: Optional[DreamGenerationConfig] = None,
-            re_mask = True,
-            re_mask_ratio = 0.5,
-            re_mask_scale = 2,
+            # re_mask = True,
+            # re_mask_ratio = 0.5,
+            # re_mask_scale = 2,
             **kwargs,
         ) -> Union[DreamModelOutput, torch.LongTensor]:
+            global re_mask, re_mask_ratio, re_mask_scale
             # 1. Handle `generation_config` and kwargs that might update it, and validate the `.generate()` call
             generation_config = self._prepare_generation_config(generation_config, **kwargs)
             generation_tokens_hook_func = kwargs.pop("generation_tokens_hook_func", lambda step, x, logits: x)
@@ -579,11 +580,12 @@ class DiffLLM(LM):
             generation_config: DreamGenerationConfig,
             generation_tokens_hook_func,
             generation_logits_hook_func,
-            re_mask = True,
-            re_mask_ratio = 0.5,
-            re_mask_scale = 2
+            # re_mask = True,
+            # re_mask_ratio = 0.5,
+            # re_mask_scale = 2
         ) -> Union[DreamModelOutput, torch.LongTensor]:
             # init values
+            global re_mask, re_mask_ratio, re_mask_scale
             output_history = generation_config.output_history
             return_dict_in_generate = generation_config.return_dict_in_generate
             max_length = generation_config.max_length

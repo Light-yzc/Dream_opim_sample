@@ -108,6 +108,27 @@ def setup_parser() -> argparse.ArgumentParser:
         help="Number of examples in few-shot context",
     )
     parser.add_argument(
+        "--use_remask",
+        type=bool,
+        default=False,
+        metavar="N",
+        help="use remask",
+    )
+    parser.add_argument(
+        "--re_mask_ratio",
+        type=float,
+        default='',
+        metavar="N",
+        help="if use remask, how many step to remak?",
+    )
+    parser.add_argument(
+        "--re_mask_scale",
+        type=float,
+        default='1',
+        metavar="N",
+        help="remask scale",
+    )
+    parser.add_argument(
         "--batch_size",
         "-b",
         type=str,
@@ -434,6 +455,9 @@ def cli_evaluate(args: Union[argparse.Namespace, None] = None) -> None:
         model_args=args.model_args,
         tasks=task_names,
         num_fewshot=args.num_fewshot,
+        use_remask = args.use_remask,
+        re_mask_ratio = args.re_mask_ratio,
+        re_mask_scale = args.re_mask_scale,
         batch_size=args.batch_size,
         max_batch_size=args.max_batch_size,
         device=args.device,

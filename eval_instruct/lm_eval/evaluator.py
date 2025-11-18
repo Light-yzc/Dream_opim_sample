@@ -78,6 +78,9 @@ def simple_evaluate(
     fewshot_random_seed: int = 1234,
     confirm_run_unsafe_code: bool = False,
     metadata: Optional[dict] = None,
+    use_remask = False,
+    re_mask_ratio = 1,
+    re_mask_scale = 1,
 ):
     """Instantiate and evaluate a model on a list of tasks.
 
@@ -144,6 +147,9 @@ def simple_evaluate(
     return
         Dictionary of results
     """
+    re_mask = use_remask
+    re_mask_ratio = re_mask_ratio
+    re_mask_scale = re_mask_scale
     if verbosity is not None:
         setup_logging(verbosity=verbosity)
     start_date = time.time()
