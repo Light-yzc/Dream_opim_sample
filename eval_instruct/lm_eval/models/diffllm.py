@@ -598,9 +598,9 @@ class DiffLLM(LM):
             print('当前为 full regret！', mask_token_id)
             histories = [] if (return_dict_in_generate and output_history) else None
             if re_mask:
-                steps = steps // 2
-                print('steps')
-                print(steps)
+                steps = int(steps / (re_mask_ratio * re_mask_scale - re_mask_ratio + 1))
+            print('sample steps')
+            print(steps)
             # pad input_ids to max_length
             x = F.pad(input_ids, (0, max_length - input_ids.shape[1]), value=mask_token_id)
 
