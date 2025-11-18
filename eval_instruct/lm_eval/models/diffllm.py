@@ -47,8 +47,12 @@ from transformers.utils import (
 )
 
 logger = logging.get_logger(__name__)
+remask_data = {
+    "re_mask": True,
+    "re_mask_ratio": 2,
+    "re_mask_scale": 0.5
+}
 
-remask_json = json.loads('/remask.json')
 def top_p_logits(logits, top_p=None):
     sorted_logits, sorted_indices = torch.sort(logits, descending=True)
     cumulative_probs = torch.cumsum(F.softmax(sorted_logits, dim=-1), dim=-1)
@@ -509,9 +513,9 @@ class DiffLLM(LM):
             # re_mask_scale = 2,
             **kwargs,
         ) -> Union[DreamModelOutput, torch.LongTensor]:
-            re_mask = remask_json['re_mask']
-            re_mask_ratio = remask_json['re_mask_ratio']
-            re_mask_scale = remask_json['re_mask_scale']            # 1. Handle `generation_config` and kwargs that might update it, and validate the `.generate()` call
+            re_mask = remask_data['re_mask']
+            re_mask_ratio = remask_data['re_mask_ratio']
+            re_mask_scale = remask_data['re_mask_scale']            # 1. Handle `generation_config` and kwargs that might update it, and validate the `.generate()` call
             generation_config = self._prepare_generation_config(generation_config, **kwargs)
             generation_tokens_hook_func = kwargs.pop("generation_tokens_hook_func", lambda step, x, logits: x)
             generation_logits_hook_func = kwargs.pop("generation_logits_hook_func", lambda step, x, logits: logits)

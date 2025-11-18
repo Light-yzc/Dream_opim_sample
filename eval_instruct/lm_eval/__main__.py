@@ -107,27 +107,27 @@ def setup_parser() -> argparse.ArgumentParser:
         metavar="N",
         help="Number of examples in few-shot context",
     )
-    parser.add_argument(
-        "--use_remask",
-        type=bool,
-        default=False,
-        metavar="N",
-        help="use remask",
-    )
-    parser.add_argument(
-        "--re_mask_ratio",
-        type=float,
-        default='',
-        metavar="N",
-        help="if use remask, how many step to remak?",
-    )
-    parser.add_argument(
-        "--re_mask_scale",
-        type=float,
-        default='1',
-        metavar="N",
-        help="remask scale",
-    )
+    # parser.add_argument(
+    #     "--use_remask",
+    #     type=bool,
+    #     default=False,
+    #     metavar="N",
+    #     help="use remask",
+    # )
+    # parser.add_argument(
+    #     "--re_mask_ratio",
+    #     type=float,
+    #     default='',
+    #     metavar="N",
+    #     help="if use remask, how many step to remak?",
+    # )
+    # parser.add_argument(
+    #     "--re_mask_scale",
+    #     type=float,
+    #     default='1',
+    #     metavar="N",
+    #     help="remask scale",
+    # )
     parser.add_argument(
         "--batch_size",
         "-b",
